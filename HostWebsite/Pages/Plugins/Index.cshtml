@@ -1,0 +1,59 @@
+﻿@page "/plugins"
+
+@model HostWebsite.Pages.Plugins.IndexModel
+
+@{
+    ViewData["Title"] = "Plugins";
+}
+
+<h1>Plugins</h1>
+
+@if (Model.LoadingErrors.Any())
+{
+    <ul class="list-group">
+        @foreach (var error in Model.LoadingErrors)
+        {
+            <li class="list-group-item list-group-item-danger">
+                @error
+            </li>
+        }
+    </ul>
+}
+
+@if (Model.Plugins.Any())
+{
+    <div class="list-group">
+        @foreach (var plugin in Model.Plugins)
+        {
+            <div class="list-group-item">
+                <div class="media">
+                    <svg class="bd-placeholder-img mr-3" width="64" height="64" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 64x64"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect></svg>
+                    <div class="media-body">
+                        <h5 class="mt-0">@plugin.EntryPoint.Meta.Name</h5>
+                        <div>
+                            @if (plugin.EntryPoint.Meta.Uri != null)
+                            {
+                                <a href="@plugin.EntryPoint.Meta.Uri" class="small">visit website</a>
+                            }
+                            @if (plugin.EntryPoint.Meta.Author != null)
+                            {
+                                <span class="small text-muted">
+                                    authored by
+                                    @if (plugin.EntryPoint.Meta.AuthorUri == null)
+                                    {
+                                        <span class="small text-muted">@plugin.EntryPoint.Meta.Author</span>
+                                    }
+                                    else
+                                    {
+                                        <a href="@plugin.EntryPoint.Meta.AuthorUri">@plugin.EntryPoint.Meta.Author</a>
+                                    }
+                                </span>
+                            }
+                        </div>
+                        <p>@plugin.EntryPoint.Meta.Description</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
